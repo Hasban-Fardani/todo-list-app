@@ -1,0 +1,32 @@
+CREATE TABLE IF NOT EXISTS user (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    namaLengkap VARCHAR(60) NOT NULL,
+    username VARCHAR(20) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE ,
+    password VARCHAR(15) NOT NULL,
+    createAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    lastEditeAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+);
+
+CREATE TABLE IF NOT EXISTS todoGroup (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    idUser INT,
+    nama VARCHAR(100) NOT NULL UNIQUE,
+    skalaPrioritas INT NOT NULL,
+    warna VARCHAR(7) NOT NULL,
+    FOREIGN KEY(idUser) REFERENCES user(id)
+);
+
+CREATE TABLE IF NOT EXISTS todo (
+    id INT,
+    idUser INT,
+    idGroup INT,
+    namaKegiatan VARCHAR(50) NOT NULL,
+    deskripsi TEXT,
+    startAt DATETIME NOT NULL,
+    endAt DATETIME NOT NULL,
+    FOREIGN KEY(idUser) REFERENCES user(id),
+    FOREIGN KEY(idGroup) REFERENCES todoGroup(id)
+);
+
+

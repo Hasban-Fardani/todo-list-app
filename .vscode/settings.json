@@ -1,0 +1,18 @@
+{
+    "go.inferGopath": false,
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "localhost connection",
+            "database": "todo_list_app",
+            "username": "root",
+            "password": "mysqlku123"
+        }
+    ]
+}
