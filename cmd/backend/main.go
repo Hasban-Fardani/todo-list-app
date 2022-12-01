@@ -10,9 +10,6 @@ import (
 
 func main() {
 	gin.SetMode("release")
-	var a map[string]float32
-	p := a["u"]
-	fmt.Println(p)
 	PORT := configs.BE_PORT
 
 	server := gin.New()
