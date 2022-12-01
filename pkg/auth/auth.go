@@ -2,6 +2,8 @@ package auth
 
 import (
 	"errors"
+	"fmt"
+	"log"
 
 	"github.com/hasban-fardani/todo-list-app/pkg/database"
 	"github.com/hasban-fardani/todo-list-app/pkg/models"
@@ -39,6 +41,8 @@ func LoginWithData(userData models.User) (models.User, bool, error) {
 	if userData.Password != result.Password {
 		return result, false, errors.New("wrong password")
 	}
+	fmt.Println("")
+	log.Println(result.Username + " loged in\n")
 	return result, true, nil
 }
 

@@ -18,8 +18,7 @@ var (
 
 const (
 	AppName = "todo list app"
-	BE_PORT = "7000"
-	FE_PORT = "8080"
+	BE_PORT = "8000"
 )
 
 func init() {

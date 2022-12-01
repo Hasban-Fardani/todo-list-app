@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS todo (
     id INT,
     idUser INT,
     idGroup INT,
-    namaKegiatan VARCHAR(50) NOT NULL,
+    nama VARCHAR(50) NOT NULL UNIQUE,
     deskripsi TEXT,
     startAt DATETIME NOT NULL,
     endAt DATETIME NOT NULL,

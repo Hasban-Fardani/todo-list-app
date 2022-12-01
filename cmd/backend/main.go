@@ -10,7 +10,9 @@ import (
 
 func main() {
 	gin.SetMode("release")
-
+	var a map[string]float32
+	p := a["u"]
+	fmt.Println(p)
 	PORT := configs.BE_PORT
 
 	server := gin.New()
@@ -35,6 +37,7 @@ func main() {
 
 	todoGroup := api.Group("todo-group")
 	todoGroup.Use(middleware.NeedLogin())
+	todoGroup.GET("/", GetAllTodoGroup())
 	todoGroup.POST("/add", AddTodoGroup())
 
 	fmt.Println("server run on http://localhost:" + PORT)

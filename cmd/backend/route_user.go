@@ -66,10 +66,17 @@ func Login() gin.HandlerFunc {
 				status = http.StatusInternalServerError
 				message = err.Error()
 			}
-		}
+		} else {
+			user, ok, err := auth.LoginWithData(userData)
+			if err != nil || !ok {
+				ctx.JSON(http.StatusInternalServerError,
+					gin.H{
+						"message": "failed to login, please check whether the data you entered is correct",
+					},
+				)
+				return
+			}
 
-		user, ok, err := auth.LoginWithData(userData)
-		if err != nil || !ok || tokenStr == "" {
 			claims := models.UserClaims{
 				StandardClaims: jwt.StandardClaims{
 					ExpiresAt: time.Now().Add(configs.JwtTimeOut).Unix(),
@@ -77,7 +84,7 @@ func Login() gin.HandlerFunc {
 				},
 				User: user,
 			}
-			tokenStr, err := auth.CreateUserToken(claims)
+			tokenStr, err = auth.CreateUserToken(claims)
 			if err != nil {
 				status = http.StatusInternalServerError
 				message = err.Error()
@@ -146,27 +153,27 @@ func EditUser() gin.HandlerFunc {
 		}
 
 		if req.To.Username != "" {
-			db.Query(
+			db.Exec(
 				"update user set username = ? where username = ?",
 				req.To.Username, req.From.Username)
 		}
 		if req.To.NamaLengkap != "" {
-			db.Query(
+			db.Exec(
 				"update user set namaLengkap = ? where namaLengkap = ?",
 				req.To.NamaLengkap, req.From.NamaLengkap)
 		}
 		if req.To.Email != "" {
-			db.Query(
+			db.Exec(
 				"update user set email = ? where email = ?",
 				req.To.Email, req.From.Email)
 		}
 		if req.To.Password != "" {
-			db.Query(
+			db.Exec(
 				"update user set password = ? where password = ?",
 				req.To.Password, req.From.Password)
 		}
 
-		db.Query(
+		db.Exec(
 			"update user set lastEditeAt = CURRENT_TIMESTAMP where username = ?",
 			req.From.Username)
 
@@ -184,6 +191,7 @@ func EditUser() gin.HandlerFunc {
 func DeleteUser() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var usrInDb models.User
+		var err error
 
 		var status = http.StatusAccepted
 		var message = "success delete user"
@@ -194,7 +202,7 @@ func DeleteUser() gin.HandlerFunc {
 			message = "you're not login!"
 		}
 		user := userData.(models.User)
-		err := db.QueryRow(
+		err = db.QueryRow(
 			"select * from todo where idUser = ?", user.Id,
 		).Scan(&usrInDb)
 		if usrInDb.Username == "" {

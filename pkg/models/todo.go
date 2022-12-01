@@ -3,19 +3,19 @@ package models
 import "time"
 
 type Todo struct {
-	Id           int
-	IdUser       int
-	IdGroup      int
-	NamaKegiatan string
-	Deskripsi    string
-	StartAt      time.Time
-	EndAt        time.Time
+	Id        int       `json:"id" db:"id"`
+	IdUser    int       `json:"idUser" db:"idUser"`
+	IdGroup   int       `json:"idGroup" db:"idGroup"`
+	Nama      string    `json:"nama" db:"nama"`
+	Deskripsi string    `json:"deskripsi" db:"deskripsi"`
+	StartAt   time.Time `json:"startAt" db:"startAt"`
+	EndAt     time.Time `json:"endAt" db:"endAt"`
 }
 
 type TodoGroup struct {
-	Id             int
-	IdUser         int
-	Nama           string
-	SkalaPrioritas int
-	Warna          string
+	Id             int    `json:"id" db:"id"`
+	IdUser         int    `json:"idUser" db:"idUser"`
+	Nama           string `json:"nama" db:"nama"`
+	SkalaPrioritas int    `json:"skalaPrioritas" db:"skalaPrioritas"`
+	Warna          string `json:"warna" db:"warna"`
 }
